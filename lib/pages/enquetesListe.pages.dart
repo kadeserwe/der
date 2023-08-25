@@ -52,21 +52,22 @@ class _EnquetesListeState extends State<EnquetesListe> {
     dataEnquete.getStringToken().then((dynamic value) async {
       String? token = value.toString();
 
-      var url = VariableClasse.hostListeEnquete;
 
-      var response = await http.get(
-        Uri.parse(url),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-          'Content-Type': 'application/json',
-          // 'Accept': 'application/json',
-          'Authorization': 'Bearer $token',
-        },
-      );
-      //print('Response body: ${response.body}');
-      //  print('Response status: ${response.statusCode}');
 
       try {
+        var url = VariableClasse.hostListeEnquete;
+
+        var response = await http.get(
+          Uri.parse(url),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+            'Content-Type': 'application/json',
+            // 'Accept': 'application/json',
+            'Authorization': 'Bearer $token',
+          },
+        );
+        //print('Response body: ${response.body}');
+        //  print('Response status: ${response.statusCode}');
         if (response.statusCode == 200) {
           setState(() {
             dynamic data = json.decode(response.body);
@@ -95,7 +96,15 @@ class _EnquetesListeState extends State<EnquetesListe> {
           throw Exception('les données existent pas');
         }
       } catch (e) {
-        return throw ("Service inaccèssible");
+        Fluttertoast.showToast(
+            msg: "Une erreur s'est produite ",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 5,
+            backgroundColor: Colors.blue,
+            textColor: Colors.black,
+            fontSize: 16.0);
+        // return throw ("Service inaccèssible");
         //return e.toString();
       }
     });

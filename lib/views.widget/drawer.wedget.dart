@@ -141,24 +141,6 @@ class MonMenu extends StatelessWidget {
                           ,titreProjet: titreProjet="",prenomBen: prenomBen="",nomBen: nomBen="",telBen:telBen="",
                           numCNIBen:numCNIBen="", adresseBen:adresseBen="", selectedValueRgion:selectedValueRgion="", selectedValueDepart:selectedValueDepart="",
                           selectedValueCommune:selectedValueCommune="", selectValue:selectValue="",actSemaine: actSemaine=null, containteValue:containteValue=null, valOffline:"")));
-              // Fluttertoast.showToast(
-              //     msg: "aucune données disponible",
-              //     toastLength: Toast.LENGTH_SHORT,
-              //     gravity: ToastGravity.CENTER,
-              //     timeInSecForIosWeb: 5,
-              //     backgroundColor: Colors.blue,
-              //     textColor: Colors.black,
-              //     fontSize: 16.0);
-
-
-              // Navigator.push(
-              //     context,
-              //     MaterialPageRoute(
-              //         builder: (context) => Projets()));
-
-
-              //  });
-              // Navigator.of(context).pop();
 
             },
           ),

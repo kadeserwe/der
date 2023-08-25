@@ -4,8 +4,6 @@ import 'package:der/pages/geolocalisation.pages.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:multiselect/multiselect.dart';
-import 'package:multi_select_flutter/dialog/multi_select_dialog_field.dart';
 
 class Contrainte extends StatefulWidget {
   String selectValue;

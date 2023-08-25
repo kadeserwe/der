@@ -3,8 +3,6 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import '../config/config.constantVariable.dart';
 import '../controller/loginApi.controller.dart';
 import 'home.pages.dart';
 import 'homeOffline.pages.dart';
@@ -91,6 +89,7 @@ class Login extends StatelessWidget {
                   color: Colors.blue, borderRadius: BorderRadius.circular(20)),
               child: ElevatedButton(
                 onPressed: () async {
+              //   try{
                   print(loginController.text);
                   print(passwordController.text);
                   SharedPreferences pref =
@@ -112,8 +111,18 @@ class Login extends StatelessWidget {
                       }
                     }
 
+
+
                     return const Center(child: CircularProgressIndicator());
                   });
+
+    // } catch (e) {
+    //
+    //       throw ("Service inaccèssible");
+    //
+    //         //  return e.toString();
+    //          //return  ("Service inaccèssible" );
+    //            }
                 },
                 child: const Text(
                   'Connexion',
@@ -137,6 +146,7 @@ class Login extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                         builder: (context) =>
+                         //   GeoMap(),
                             NouvelleEnquete(valOffline: "false"),
                       ));
                 },

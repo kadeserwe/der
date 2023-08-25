@@ -23,12 +23,14 @@ class LoginController {
 
  Future sendLogin(String email, String password) async {
   //BonBloc bb= BonBloc();
-  var url = VariableClasse.hostLogin;
+
 
 
   //String va= Constant.client_secret;
-print(url);
+
   try {
+    final  url = VariableClasse.hostLogin;
+    print(url);
 
 
   var response = await http.post(Uri.parse(url),
@@ -149,11 +151,22 @@ dynamic token = datareponse['token'].toString();
   }
 
   } catch (e) {
+    print("---------------e");
+   // print(Future);
+    print("---------------e");
+    Fluttertoast.showToast(
+        msg: "Erreur !!" ,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 5,
+        backgroundColor: Colors.blue,
+        textColor: Colors.black,
+        fontSize: 16.0);
 
   // throw ("Service inaccèssible");
 
   //return e.toString();
-    return  ("${e}Service inaccèssible" );
+   // return  ("${e}Service inaccèssible" );
   }
 }
 

@@ -11,20 +11,21 @@ import 'package:shared_preferences/shared_preferences.dart';
 class EnquetesController {
   late bool isVisible;
   Future getEnquetes(String token) async {
-    var url = "https://msas.ip3dev.com/api-der/public/api/enquettes?page=1";
-    print(url.toString()+" +++++++++++++");
-    print(" +++Token+++++++++  $token");
-    var response = await http.get(Uri.parse(url),
-      headers: <String, String>{
-      'Content-Type': 'application/json; charset=UTF-8',
-        'Content-Type': 'application/json',
-        // 'Accept': 'application/json',
-        'Authorization': 'Bearer $token',
-    },);
-    //print('Response body: ${response.body}');
-    print('Response status: ${response.statusCode}');
+
 
     try{
+      var url = "https://msas.ip3dev.com/api-der/public/api/enquettes?page=1";
+      print(url.toString()+" +++++++++++++");
+      print(" +++Token+++++++++  $token");
+      var response = await http.get(Uri.parse(url),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Content-Type': 'application/json',
+          // 'Accept': 'application/json',
+          'Authorization': 'Bearer $token',
+        },);
+      //print('Response body: ${response.body}');
+      print('Response status: ${response.statusCode}');
       if (response.statusCode == 200) {
 
         //  print(navireData);

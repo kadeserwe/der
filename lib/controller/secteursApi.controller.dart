@@ -23,9 +23,10 @@ class SecteurApiController {
       // print(valToken);
       print("valToken");
 
-      var url = VariableClasse.hostSectuer;
-      print(url);
+
       try {
+        var url = VariableClasse.hostSectuer;
+        print(url);
         var response = await http.get(Uri.parse(url)
 
           ,headers: <String, String>{
@@ -66,7 +67,7 @@ class SecteurApiController {
           throw Exception('les données existent pas');
         }
       } catch (e) {
-        return e.toString();
+       // return e.toString();
       }});
   }
 

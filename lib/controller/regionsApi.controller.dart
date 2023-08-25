@@ -23,9 +23,10 @@ class RegionsApiController {
       // print(valToken);
       print("valToken");
 
-      var url = VariableClasse.hostRegion;
-      print(url);
+
       try {
+        var url = VariableClasse.hostRegion;
+        print(url);
         var response = await http.get(Uri.parse(url)
 
           ,headers: <String, String>{
