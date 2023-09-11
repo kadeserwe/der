@@ -140,7 +140,7 @@ class MonMenu extends StatelessWidget {
                       builder: (context) => Geolocalisation(secteurID: secteurID="",secteurLibelle: secteurLibelle="", dateEnquete: dateEnquete="",referenceProj: referenceProj=""
                           ,titreProjet: titreProjet="",prenomBen: prenomBen="",nomBen: nomBen="",telBen:telBen="",
                           numCNIBen:numCNIBen="", adresseBen:adresseBen="", selectedValueRgion:selectedValueRgion="", selectedValueDepart:selectedValueDepart="",
-                          selectedValueCommune:selectedValueCommune="", selectValue:selectValue="",actSemaine: actSemaine=null, containteValue:containteValue=null, valOffline:"")));
+                          selectedValueCommune:selectedValueCommune="", selectValue:selectValue="",actSemaine: actSemaine=null, containteValue:containteValue=null, valOffline:"oui")));
 
             },
           ),

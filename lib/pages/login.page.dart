@@ -29,7 +29,7 @@ class Login extends StatelessWidget {
           title: const Align(
               alignment: Alignment.center,
               child: Text(
-                "Bienvenue sur DER mobile",
+                "Bienvenue sur SISE mobile",
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 20.0,

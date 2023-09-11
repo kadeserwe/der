@@ -14,7 +14,7 @@ import 'home.pages.dart';
 import 'nouvelleEnquete.pages.dart';
 
 class EnquetesListe extends StatefulWidget {
-  EnquetesListe();
+  const EnquetesListe({super.key, });
 
   @override
   State<EnquetesListe> createState() => _EnquetesListeState();

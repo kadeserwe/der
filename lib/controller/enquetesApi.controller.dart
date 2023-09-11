@@ -73,7 +73,7 @@ class EnquetesController {
   print("typeeplacement");
   print(typeeplacement);
   print("typeeplacement");
-    if (typeeplacement == "false") {
+    if (typeeplacement == "false" || typeeplacement == "oui" ) {
       return isVisible = false;
     } else if (typeeplacement == "true") {
       return  isVisible = true;
@@ -88,7 +88,9 @@ class EnquetesController {
     }else if(libelle=="false"){
       // color: Colors.lightBlue
       libelle="Sauvegarder";
-    }
+    } else if(libelle=="oui"){
+      // color: Colors.lightBlue
+      libelle="Actualiser la position";}
     return libelle;
 
   }

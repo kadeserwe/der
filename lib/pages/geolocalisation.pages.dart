@@ -260,6 +260,16 @@ class _GeolocalisationState extends State<Geolocalisation> {
                                     width: 370,
                                     child: ElevatedButton(
                                       onPressed: () async {
+                                        Position position = await _determinePosition();
+
+                                        googleMapController
+                                            ?.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(target: LatLng(position.latitude, position.longitude), zoom: 14)));
+
+
+                                        markers.clear();
+
+                                        markers.add(Marker(markerId: const MarkerId('currentLocation'),position: LatLng(position.latitude, position.longitude)));
+
                                         setState(() {});
                                         await Geolocator.requestPermission();
                                         Geolocator.getCurrentPosition()
@@ -274,221 +284,224 @@ class _GeolocalisationState extends State<Geolocalisation> {
                                           print("altitudeController${altitudeController.text}");
                                           print("longitudeController${longitudeController.text}");
                                         }));
+
+
                                       },
-                                      child: Text("Actualiser la possition"),
+                                      child: Text("Actualiser la possition!"),
                                     ),
                                   ),
-                                const Divider(
-                                  height: 5,
-                                  color: Colors.black12,
-                                ),
+                                // const Divider(
+                                //   height: 5,
+                                //   color: Colors.black12,
+                                // ),
                                 // if (dataEnqueteCtl.masquerWidgetSave(widget.valOffline) )
-                                Container(
-                                  // color: Colors.grey,
-                                  height: 50.0,
-                                  width: 370,
-                                  child: ElevatedButton(
-                                      child: Text(dataEnqueteCtl
-                                          .getLibelleBouton(widget.valOffline)),
-                                      onPressed: () async {
-                                        if (widget.valOffline == "false") {
-                                          print("+++++++++++++faux------------------");
-                                          print(localList);
-                                          print("+++++++++++++faux------------------");
-                                          localList.add(widget.referenceProj);
-                                          localList.add(widget.dateEnquete);
-                                          localList.add(widget.titreProjet);
-                                          localList.add(widget.prenomBen);
-                                          localList.add(widget.nomBen);
-                                          localList.add(widget.telBen);
-                                          localList.add(widget.numCNIBen);
-                                          localList.add(widget.adresseBen);
-                                          localList.add(widget.selectedValueRgion);
-                                          localList.add(widget.secteurLibelle);
-                                          localList.add(widget.secteurID);
-                                          localList.add(widget.selectedValueDepart);
-                                          localList.add(widget.selectedValueCommune);
-                                          localList.add(widget.actSemaine);
-                                          localList.add(widget.containteValue);
 
-                                          SharedPreferences prefDataStorage =
-                                          await SharedPreferences.getInstance();
-                                          dynamic jsonData = prefDataStorage
-                                              .getString('jsonLocalStorage');
-
-                                          if (jsonData == null) {
-                                            List<Map<String, dynamic>> mapList = [];
-
-                                            mapList.add({
-                                              "referenceProj": localList[0],
-                                              "dateEnquete": localList[1],
-                                              "titreProjet": localList[2],
-                                              "prenomBen": localList[3],
-                                              "nomBen": localList[4],
-                                              "telBen": localList[5],
-                                              "numCNIBen": localList[6],
-                                              "adresseBen": localList[7],
-                                              "nomRegion": localList[8],
-                                              "secteurLibelle": localList[9],
-                                              "secteurID": localList[10],
-                                              "nomDepart": localList[11],
-                                              "nomCommune": localList[12],
-                                              "actSemaine": localList[13],
-                                              "containte": localList[14]
-                                            });
-
-                                            for (var element in mapList) {
-                                              String referenceProj =
-                                              element["referenceProj"];
-                                              dynamic actSemaine = element["actSemaine"];
-                                              print(
-                                                  "+++++++++++++referenceProj------------------");
-                                              print(referenceProj);
-                                              print(actSemaine);
-                                              print(
-                                                  "+++++++++++++referenceProj------------------");
-                                            }
-
-                                            dynamic jsonLocalStorage =
-                                            json.encode(mapList);
-                                            print(
-                                                "+++++++++++++jsonLocalStorage------------------");
-                                            print(jsonLocalStorage);
-                                            print(
-                                                "+++++++++++++jsonLocalStorage------------------");
-
-                                            SharedPreferences pref =
-                                            await SharedPreferences.getInstance();
-                                            await pref.setString(
-                                                'jsonLocalStorage', jsonLocalStorage);
-                                            Fluttertoast.showToast(
-                                                msg: "Sauvegarde avec succès",
-                                                toastLength: Toast.LENGTH_SHORT,
-                                                gravity: ToastGravity.CENTER,
-                                                timeInSecForIosWeb: 10,
-                                                backgroundColor: Colors.green,
-                                                textColor: Colors.white,
-                                                fontSize: 16.0);
-                                            setState(() {
-                                              Navigator.pushReplacement(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                    builder: (context) => NouvelleEnquete(
-                                                        valOffline: "false"),
-                                                  ));
-                                            });
-                                          } else {
-                                            dynamic localStorage = json.decode(jsonData);
-
-                                            List<Map<String, dynamic>> mapList = [];
-                                            // for (var element in localList) {
-                                            mapList.add({
-                                              "referenceProj": localList[0],
-                                              "dateEnquete": localList[1],
-                                              "titreProjet": localList[2],
-                                              "prenomBen": localList[3],
-                                              "nomBen": localList[4],
-                                              "telBen": localList[5],
-                                              "numCNIBen": localList[6],
-                                              "adresseBen": localList[7],
-                                              "nomRegion": localList[8],
-                                              "secteurLibelle": localList[9],
-                                              "secteurID": localList[10],
-                                              "nomDepart": localList[11],
-                                              "nomCommune": localList[12],
-                                              "actSemaine": localList[13],
-                                              "containte": localList[14]
-                                            });
-                                            //   }
-
-                                            for (var element in localStorage) {
-                                              mapList.add({
-                                                "referenceProj": element["referenceProj"],
-                                                "dateEnquete": element["dateEnquete"],
-                                                "titreProjet": element["titreProjet"],
-                                                "prenomBen": element["prenomBen"],
-                                                "nomBen": element["nomBen"],
-                                                "telBen": element["telBen"],
-                                                "numCNIBen": element["numCNIBen"],
-                                                "adresseBen": element["adresseBen"],
-                                                "nomRegion": element["nomRegion"],
-                                                "secteurLibelle":
-                                                element["secteurLibelle"],
-                                                "secteurID": element["secteurID"],
-                                                "nomDepart": element["nomDepart"],
-                                                "nomCommune": element["nomCommune"],
-                                                "actSemaine": element["actSemaine"],
-                                                "containte": element["containte"]
-                                              });
-                                              print(
-                                                  "+++++++++++++referenceProj------------------");
-                                            }
-
-                                            print(json.encode(mapList));
-                                            dynamic jsonLocalStorage =
-                                            json.encode(mapList);
-
-                                            SharedPreferences pref =
-                                            await SharedPreferences.getInstance();
-                                            await pref.setString(
-                                                'jsonLocalStorage', jsonLocalStorage);
-                                            Fluttertoast.showToast(
-                                                msg: "Sauvegarde avec succès",
-                                                toastLength: Toast.LENGTH_SHORT,
-                                                gravity: ToastGravity.CENTER,
-                                                timeInSecForIosWeb: 10,
-                                                backgroundColor: Colors.green,
-                                                textColor: Colors.white,
-                                                fontSize: 16.0);
-
-                                            setState(() {
-                                              Navigator.pushReplacement(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                    builder: (context) => NouvelleEnquete(
-                                                        valOffline: "false"),
-                                                  ));
-                                            });
-                                          }
-                                        } else if (widget.valOffline == 'true') {
-                                          postEnquetes(
-                                              widget.referenceProj.toString(),
-                                              widget.dateEnquete.toString(),
-                                              widget.titreProjet.toString(),
-                                              widget.prenomBen,
-                                              widget.nomBen,
-                                              widget.telBen,
-                                              widget.numCNIBen,
-                                              widget.adresseBen,
-                                              widget.selectedValueRgion,
-                                              widget.secteurLibelle,
-                                              widget.secteurID.toString(),
-                                              widget.selectedValueDepart,
-                                              widget.selectedValueCommune,
-                                              widget.actSemaine,
-                                              widget.containteValue)
-                                              .then((value) {
-                                            // int reponseValue=value;
-                                            print("+++++++++++++value----------");
-                                            print(value);
-                                            setState(() {
-                                              Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          EnquetesListe()));
-                                            });
-
-                                            // }
-                                          });
-                                        }
-                                      }),
-                                ),
-
-                                const Divider(
-                                  height: 5,
-                                  color: Colors.black12,
-                                ),
+                                // Container(
+                                //   // color: Colors.grey,
+                                //   height: 50.0,
+                                //   width: 370,
+                                //   child: ElevatedButton(
+                                //       child: Text(dataEnqueteCtl
+                                //           .getLibelleBouton(widget.valOffline)),
+                                //       onPressed: () async {
+                                //         if (widget.valOffline == "false") {
+                                //           print("+++++++++++++faux------------------");
+                                //           print(localList);
+                                //           print("+++++++++++++faux------------------");
+                                //           localList.add(widget.referenceProj);
+                                //           localList.add(widget.dateEnquete);
+                                //           localList.add(widget.titreProjet);
+                                //           localList.add(widget.prenomBen);
+                                //           localList.add(widget.nomBen);
+                                //           localList.add(widget.telBen);
+                                //           localList.add(widget.numCNIBen);
+                                //           localList.add(widget.adresseBen);
+                                //           localList.add(widget.selectedValueRgion);
+                                //           localList.add(widget.secteurLibelle);
+                                //           localList.add(widget.secteurID);
+                                //           localList.add(widget.selectedValueDepart);
+                                //           localList.add(widget.selectedValueCommune);
+                                //           localList.add(widget.actSemaine);
+                                //           localList.add(widget.containteValue);
+                                //
+                                //           SharedPreferences prefDataStorage =
+                                //           await SharedPreferences.getInstance();
+                                //           dynamic jsonData = prefDataStorage
+                                //               .getString('jsonLocalStorage');
+                                //
+                                //           if (jsonData == null) {
+                                //             List<Map<String, dynamic>> mapList = [];
+                                //
+                                //             mapList.add({
+                                //               "referenceProj": localList[0],
+                                //               "dateEnquete": localList[1],
+                                //               "titreProjet": localList[2],
+                                //               "prenomBen": localList[3],
+                                //               "nomBen": localList[4],
+                                //               "telBen": localList[5],
+                                //               "numCNIBen": localList[6],
+                                //               "adresseBen": localList[7],
+                                //               "nomRegion": localList[8],
+                                //               "secteurLibelle": localList[9],
+                                //               "secteurID": localList[10],
+                                //               "nomDepart": localList[11],
+                                //               "nomCommune": localList[12],
+                                //               "actSemaine": localList[13],
+                                //               "containte": localList[14]
+                                //             });
+                                //
+                                //             for (var element in mapList) {
+                                //               String referenceProj =
+                                //               element["referenceProj"];
+                                //               dynamic actSemaine = element["actSemaine"];
+                                //               print(
+                                //                   "+++++++++++++referenceProj------------------");
+                                //               print(referenceProj);
+                                //               print(actSemaine);
+                                //               print(
+                                //                   "+++++++++++++referenceProj------------------");
+                                //             }
+                                //
+                                //             dynamic jsonLocalStorage =
+                                //             json.encode(mapList);
+                                //             print(
+                                //                 "+++++++++++++jsonLocalStorage------------------");
+                                //             print(jsonLocalStorage);
+                                //             print(
+                                //                 "+++++++++++++jsonLocalStorage------------------");
+                                //
+                                //             SharedPreferences pref =
+                                //             await SharedPreferences.getInstance();
+                                //             await pref.setString(
+                                //                 'jsonLocalStorage', jsonLocalStorage);
+                                //             Fluttertoast.showToast(
+                                //                 msg: "Sauvegarde avec succès",
+                                //                 toastLength: Toast.LENGTH_SHORT,
+                                //                 gravity: ToastGravity.CENTER,
+                                //                 timeInSecForIosWeb: 10,
+                                //                 backgroundColor: Colors.green,
+                                //                 textColor: Colors.white,
+                                //                 fontSize: 16.0);
+                                //             setState(() {
+                                //               Navigator.pushReplacement(
+                                //                   context,
+                                //                   MaterialPageRoute(
+                                //                     builder: (context) => NouvelleEnquete(
+                                //                         valOffline: "false"),
+                                //                   ));
+                                //             });
+                                //           } else {
+                                //             dynamic localStorage = json.decode(jsonData);
+                                //
+                                //             List<Map<String, dynamic>> mapList = [];
+                                //             // for (var element in localList) {
+                                //             mapList.add({
+                                //               "referenceProj": localList[0],
+                                //               "dateEnquete": localList[1],
+                                //               "titreProjet": localList[2],
+                                //               "prenomBen": localList[3],
+                                //               "nomBen": localList[4],
+                                //               "telBen": localList[5],
+                                //               "numCNIBen": localList[6],
+                                //               "adresseBen": localList[7],
+                                //               "nomRegion": localList[8],
+                                //               "secteurLibelle": localList[9],
+                                //               "secteurID": localList[10],
+                                //               "nomDepart": localList[11],
+                                //               "nomCommune": localList[12],
+                                //               "actSemaine": localList[13],
+                                //               "containte": localList[14]
+                                //             });
+                                //             //   }
+                                //
+                                //             for (var element in localStorage) {
+                                //               mapList.add({
+                                //                 "referenceProj": element["referenceProj"],
+                                //                 "dateEnquete": element["dateEnquete"],
+                                //                 "titreProjet": element["titreProjet"],
+                                //                 "prenomBen": element["prenomBen"],
+                                //                 "nomBen": element["nomBen"],
+                                //                 "telBen": element["telBen"],
+                                //                 "numCNIBen": element["numCNIBen"],
+                                //                 "adresseBen": element["adresseBen"],
+                                //                 "nomRegion": element["nomRegion"],
+                                //                 "secteurLibelle":
+                                //                 element["secteurLibelle"],
+                                //                 "secteurID": element["secteurID"],
+                                //                 "nomDepart": element["nomDepart"],
+                                //                 "nomCommune": element["nomCommune"],
+                                //                 "actSemaine": element["actSemaine"],
+                                //                 "containte": element["containte"]
+                                //               });
+                                //               print(
+                                //                   "+++++++++++++referenceProj------------------");
+                                //             }
+                                //
+                                //             print(json.encode(mapList));
+                                //             dynamic jsonLocalStorage =
+                                //             json.encode(mapList);
+                                //
+                                //             SharedPreferences pref =
+                                //             await SharedPreferences.getInstance();
+                                //             await pref.setString(
+                                //                 'jsonLocalStorage', jsonLocalStorage);
+                                //             Fluttertoast.showToast(
+                                //                 msg: "Sauvegarde avec succès",
+                                //                 toastLength: Toast.LENGTH_SHORT,
+                                //                 gravity: ToastGravity.CENTER,
+                                //                 timeInSecForIosWeb: 10,
+                                //                 backgroundColor: Colors.green,
+                                //                 textColor: Colors.white,
+                                //                 fontSize: 16.0);
+                                //
+                                //             setState(() {
+                                //               Navigator.pushReplacement(
+                                //                   context,
+                                //                   MaterialPageRoute(
+                                //                     builder: (context) => NouvelleEnquete(
+                                //                         valOffline: "false"),
+                                //                   ));
+                                //             });
+                                //           }
+                                //         } else if (widget.valOffline == 'true') {
+                                //           postEnquetes(
+                                //               widget.referenceProj.toString(),
+                                //               widget.dateEnquete.toString(),
+                                //               widget.titreProjet.toString(),
+                                //               widget.prenomBen,
+                                //               widget.nomBen,
+                                //               widget.telBen,
+                                //               widget.numCNIBen,
+                                //               widget.adresseBen,
+                                //               widget.selectedValueRgion,
+                                //               widget.secteurLibelle,
+                                //               widget.secteurID.toString(),
+                                //               widget.selectedValueDepart,
+                                //               widget.selectedValueCommune,
+                                //               widget.actSemaine,
+                                //               widget.containteValue)
+                                //               .then((value) {
+                                //             // int reponseValue=value;
+                                //             print("+++++++++++++value----------");
+                                //             print(value);
+                                //             setState(() {
+                                //               Navigator.push(
+                                //                   context,
+                                //                   MaterialPageRoute(
+                                //                       builder: (context) =>
+                                //                           EnquetesListe()));
+                                //             });
+                                //
+                                //             // }
+                                //           });
+                                //         }
+                                //       }),
+                                // ),
+                                //
+                                // const Divider(
+                                //   height: 5,
+                                //   color: Colors.black12,
+                                // ),
 
                                 //const Divider(height: 0, color: Colors.black12,),
                               ]),
@@ -520,20 +533,199 @@ class _GeolocalisationState extends State<Geolocalisation> {
 
       ,
 
-
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () async {
           if (widget.valOffline == "false") {
-            Fluttertoast.showToast(
-                msg: "Connectez-vous !!",
-                toastLength: Toast.LENGTH_SHORT,
-                gravity: ToastGravity.CENTER,
-                timeInSecForIosWeb: 10,
-                backgroundColor: Colors.green,
-                textColor: Colors.white,
-                fontSize: 16.0);
+            print("+++++++++++++faux------------------");
+            print(localList);
+            print("+++++++++++++faux------------------");
+            localList.add(widget.referenceProj);
+            localList.add(widget.dateEnquete);
+            localList.add(widget.titreProjet);
+            localList.add(widget.prenomBen);
+            localList.add(widget.nomBen);
+            localList.add(widget.telBen);
+            localList.add(widget.numCNIBen);
+            localList.add(widget.adresseBen);
+            localList.add(widget.selectedValueRgion);
+            localList.add(widget.secteurLibelle);
+            localList.add(widget.secteurID);
+            localList.add(widget.selectedValueDepart);
+            localList.add(widget.selectedValueCommune);
+            localList.add(widget.actSemaine);
+            localList.add(widget.containteValue);
 
-          }else if(widget.valOffline == "true"){
+            SharedPreferences prefDataStorage =
+            await SharedPreferences.getInstance();
+            dynamic jsonData = prefDataStorage
+                .getString('jsonLocalStorage');
+
+            if (jsonData == null) {
+              List<Map<String, dynamic>> mapList = [];
+
+              mapList.add({
+                "referenceProj": localList[0],
+                "dateEnquete": localList[1],
+                "titreProjet": localList[2],
+                "prenomBen": localList[3],
+                "nomBen": localList[4],
+                "telBen": localList[5],
+                "numCNIBen": localList[6],
+                "adresseBen": localList[7],
+                "nomRegion": localList[8],
+                "secteurLibelle": localList[9],
+                "secteurID": localList[10],
+                "nomDepart": localList[11],
+                "nomCommune": localList[12],
+                "actSemaine": localList[13],
+                "containte": localList[14]
+              });
+
+              for (var element in mapList) {
+                String referenceProj =
+                element["referenceProj"];
+                dynamic actSemaine = element["actSemaine"];
+                print(
+                    "+++++++++++++referenceProj------------------");
+                print(referenceProj);
+                print(actSemaine);
+                print(
+                    "+++++++++++++referenceProj------------------");
+              }
+
+              dynamic jsonLocalStorage =
+              json.encode(mapList);
+              print(
+                  "+++++++++++++jsonLocalStorage------------------");
+              print(jsonLocalStorage);
+              print(
+                  "+++++++++++++jsonLocalStorage------------------");
+
+              SharedPreferences pref =
+              await SharedPreferences.getInstance();
+              await pref.setString(
+                  'jsonLocalStorage', jsonLocalStorage);
+              Fluttertoast.showToast(
+                  msg: "Sauvegarde avec succès",
+                  toastLength: Toast.LENGTH_SHORT,
+                  gravity: ToastGravity.CENTER,
+                  timeInSecForIosWeb: 10,
+                  backgroundColor: Colors.green,
+                  textColor: Colors.white,
+                  fontSize: 16.0);
+              setState(() {
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => NouvelleEnquete(
+                          valOffline: "false"),
+                    ));
+              });
+            } else {
+              dynamic localStorage = json.decode(jsonData);
+
+              List<Map<String, dynamic>> mapList = [];
+              // for (var element in localList) {
+              mapList.add({
+                "referenceProj": localList[0],
+                "dateEnquete": localList[1],
+                "titreProjet": localList[2],
+                "prenomBen": localList[3],
+                "nomBen": localList[4],
+                "telBen": localList[5],
+                "numCNIBen": localList[6],
+                "adresseBen": localList[7],
+                "nomRegion": localList[8],
+                "secteurLibelle": localList[9],
+                "secteurID": localList[10],
+                "nomDepart": localList[11],
+                "nomCommune": localList[12],
+                "actSemaine": localList[13],
+                "containte": localList[14]
+              });
+              //   }
+
+              for (var element in localStorage) {
+                mapList.add({
+                  "referenceProj": element["referenceProj"],
+                  "dateEnquete": element["dateEnquete"],
+                  "titreProjet": element["titreProjet"],
+                  "prenomBen": element["prenomBen"],
+                  "nomBen": element["nomBen"],
+                  "telBen": element["telBen"],
+                  "numCNIBen": element["numCNIBen"],
+                  "adresseBen": element["adresseBen"],
+                  "nomRegion": element["nomRegion"],
+                  "secteurLibelle":
+                  element["secteurLibelle"],
+                  "secteurID": element["secteurID"],
+                  "nomDepart": element["nomDepart"],
+                  "nomCommune": element["nomCommune"],
+                  "actSemaine": element["actSemaine"],
+                  "containte": element["containte"]
+                });
+                print(
+                    "+++++++++++++referenceProj------------------");
+              }
+
+              print(json.encode(mapList));
+              dynamic jsonLocalStorage =
+              json.encode(mapList);
+
+              SharedPreferences pref =
+              await SharedPreferences.getInstance();
+              await pref.setString(
+                  'jsonLocalStorage', jsonLocalStorage);
+              Fluttertoast.showToast(
+                  msg: "Sauvegarde avec succès",
+                  toastLength: Toast.LENGTH_SHORT,
+                  gravity: ToastGravity.CENTER,
+                  timeInSecForIosWeb: 10,
+                  backgroundColor: Colors.green,
+                  textColor: Colors.white,
+                  fontSize: 16.0);
+
+              setState(() {
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => NouvelleEnquete(
+                          valOffline: "false"),
+                    ));
+              });
+            }
+          } else if (widget.valOffline == 'true') {
+            postEnquetes(
+                widget.referenceProj.toString(),
+                widget.dateEnquete.toString(),
+                widget.titreProjet.toString(),
+                widget.prenomBen,
+                widget.nomBen,
+                widget.telBen,
+                widget.numCNIBen,
+                widget.adresseBen,
+                widget.selectedValueRgion,
+                widget.secteurLibelle,
+                widget.secteurID.toString(),
+                widget.selectedValueDepart,
+                widget.selectedValueCommune,
+                widget.actSemaine,
+                widget.containteValue)
+                .then((value) {
+              // int reponseValue=value;
+              print("+++++++++++++value----------");
+              print(value);
+              setState(() {
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            const EnquetesListe()));
+              });
+
+              // }
+            });
+          }else if (widget.valOffline=="oui"){
             Position position = await _determinePosition();
 
             googleMapController
@@ -558,12 +750,13 @@ class _GeolocalisationState extends State<Geolocalisation> {
               print("altitudeController${altitudeController.text}");
               print("longitudeController${longitudeController.text}");
             }));
-          }
 
+          }
 
         },
 
-        label: const Text("Actualiser "),
+        label:  Text(dataEnqueteCtl
+            .getLibelleBouton(widget.valOffline)),
         icon: const Icon(Icons.location_history),
       ),
     );
