@@ -22,7 +22,7 @@ class LoginController {
 
 
  Future sendLogin(String email, String password) async {
-  //BonBloc bb= BonBloc();
+
 
 
 
@@ -185,57 +185,9 @@ dynamic token = datareponse['token'].toString();
 
   }
 
-  /*
-* la methode qui traite et revoie le libelle Zone
-* */
-  getZone(String? zoneTerreP) {
-
-    String ? zoneTer;
-    //zoneTer==zoneTer0?"Zone nord":"Zone sude";
-    if(zoneTerreP=="2012006"){
-      zoneTer="Zone sud  ";
-    }else{
-      zoneTer="Zone nord ";
-
-    }
-    return zoneTer;
-  }
-
-  /*
-* la methode qui traite et revoie le statut
-* */
 
 
-  //Foction qui traite affichage de couleur des icons selon leurs statuts
-  Color getCouleur(String? statut){
-    if(statut=="Validée"){
 
-      return Colors.green;
-    }else if(statut=="Rejetée"){
-      return Colors.red;
-
-    }else{
-      // grey[300]
-      return Colors.grey;
-
-    }
-  }
-
-//methode qui trait le statut des tournée
-  masquerWidgetStatut(String? statut) {
-    // setState(() {
-    late bool isVisible;
-    // typeStatut=statut;
-    if (statut == "Rejetée") {
-
-      isVisible = true;
-    } else {
-
-      isVisible = false;
-    }
-    return isVisible;
-    // });
-  }
 
 
 
